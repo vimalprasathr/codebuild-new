@@ -41,6 +41,8 @@ jobs:
 
       - name: Terraform update
         id: terraform_update
+
+        run:  cd infra && bash deploy.sh
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
@@ -69,7 +71,3 @@ jobs:
           BRANCH: ${{ secrets.BRANCH_DEV }}
           BUILD_PROJECT: ${{ secrets.BUILD_PROJECT_DEV }}
           ENV: dev
-
-        run: |
-          cd infra/
-          bash deploy.sh
