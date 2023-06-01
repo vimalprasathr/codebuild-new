@@ -68,6 +68,7 @@ jobs:
           REPO_NAME: ${{ secrets.REPO_NAME_DEV }}
           BRANCH: ${{ secrets.BRANCH_DEV }}
           BUILD_PROJECT: ${{ secrets.BUILD_PROJECT_DEV }}
+          ENV: dev
 
         run: |
           echo "REGION: $REGION_DEV"
