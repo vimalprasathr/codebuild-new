@@ -1,0 +1,80 @@
+name: Deploy AWS Development
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: The environment to deploy to [dev]
+        default: "dev"
+        required: true
+      key:
+        description: Key to use for deployment production
+        default: ""
+        required: false
+
+jobs:
+
+  deploy_aws:
+    runs-on: ubuntu-latest
+    name: DEPLOY AWS DEV
+    environment:
+      name: ${{ github.event.inputs.environment }}
+    env:
+      env_deploy: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
+          aws-region: us-east-1
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
+          REGION: ${{ secrets.REGION_DEV }}
+          ENV_NAME: ${{ secrets.ENV_NAME_DEV }}
+          PROJECT_NAME: ${{ secrets.PROJECT_NAME_DEV }}
+          VPC_NAME: ${{ secrets.VPC_NAME_DEV }}
+          SECURITY_GROUP_BACKEND: ${{ secrets.SECURITY_GROUP_BACKEND_DEV }}
+          DATABASE_NAME: ${{ secrets.DATABASE_NAME_DEV }}
+          DATABASE_IDENTIFIER: ${{ secrets.DATABASE_IDENTIFIER_DEV }}
+          DATABASE_INSTANCE_TYPE: ${{ secrets.DATABASE_INSTANCE_TYPE_DEV }}
+          DATABASE_ENGINE: ${{ secrets.DATABASE_ENGINE_DEV }}
+          DATABASE_VERSION: ${{ secrets.DATABASE_VERSION_DEV }}
+          SECURITY_GROUP_NAME_RDS: ${{ secrets.SECURITY_GROUP_NAME_RDS_DEV }}
+          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME_DEV }}
+          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD_DEV }}
+          DB_SUBNET_GROUP_NAME: ${{ secrets.DB_SUBNET_GROUP_NAME_DEV }}
+          ECS_CLUSTER_NAME: ${{ secrets.ECS_CLUSTER_NAME_DEV }}
+          ECS_SERVICE_NAME: ${{ secrets.ECS_SERVICE_NAME_DEV }}
+          ECS_CONTAINER_NAME: ${{ secrets.ECS_CONTAINER_NAME_DEV }}
+          IMAGE_REPO_NAME: ${{ secrets.IMAGE_REPO_NAME_DEV }}
+          IMAGE_TAG: ${{ secrets.IMAGE_TAG_DEV }}
+          IMAGE_REPO_URL: ${{ secrets.IMAGE_REPO_URL_DEV }}
+          REPO_OWNER: ${{ secrets.REPO_OWNER_DEV }}
+          REPO_NAME: ${{ secrets.REPO_NAME_DEV }}
+          BRANCH: ${{ secrets.BRANCH_DEV }}
+          BUILD_PROJECT: ${{ secrets.BUILD_PROJECT_DEV }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.2
+          terraform_wrapper: false
+
+      - name: Terraform update
+        id: terraform_update
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+        run: |
+          echo "REGION: $REGION_DEV"
+          echo "PROJECT_NAME: $PROJECT_NAME_DEV"
+          cd infra/
+          mv backend.tf-dev backend.tf
+          mv dev.tfvars terraform.tfvars
+          cat terraform.tfvars
+          mv vpc.tf-dev vpc.tf
+          terraform init
+          terraform plan
