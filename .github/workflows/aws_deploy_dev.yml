@@ -31,6 +31,18 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_DEV }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY_DEV }}
           aws-region: us-east-1
+
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.2.2
+          terraform_wrapper: false
+
+      - name: Terraform update
+        id: terraform_update
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
           REGION: ${{ secrets.REGION_DEV }}
           ENV_NAME: ${{ secrets.ENV_NAME_DEV }}
@@ -56,17 +68,6 @@ jobs:
           REPO_NAME: ${{ secrets.REPO_NAME_DEV }}
           BRANCH: ${{ secrets.BRANCH_DEV }}
           BUILD_PROJECT: ${{ secrets.BUILD_PROJECT_DEV }}
-
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.2.2
-          terraform_wrapper: false
-
-      - name: Terraform update
-        id: terraform_update
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
         run: |
           echo "REGION: $REGION_DEV"
