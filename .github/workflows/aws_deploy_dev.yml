@@ -49,7 +49,7 @@ jobs:
           REGION: ${{ secrets.REGION_DEV }}
           ENV_NAME: ${{ secrets.ENV_NAME_DEV }}
           PROJECT_NAME: ${{ secrets.PROJECT_NAME_DEV }}
-          VPC_NAME: ${{ secrets.VPC_NAME_DEV }}
+          VPC_NAME: "${{ secrets.VPC_NAME_DEV }}"
           SECURITY_GROUP_BACKEND: ${{ secrets.SECURITY_GROUP_BACKEND_DEV }}
           DATABASE_NAME: ${{ secrets.DATABASE_NAME_DEV }}
           DATABASE_IDENTIFIER: ${{ secrets.DATABASE_IDENTIFIER_DEV }}
@@ -57,8 +57,8 @@ jobs:
           DATABASE_ENGINE: ${{ secrets.DATABASE_ENGINE_DEV }}
           DATABASE_VERSION: ${{ secrets.DATABASE_VERSION_DEV }}
           SECURITY_GROUP_NAME_RDS: ${{ secrets.SECURITY_GROUP_NAME_RDS_DEV }}
-          DATABASE_USERNAME: ${{ secrets.DATABASE_USERNAME_DEV }}
-          DATABASE_PASSWORD: ${{ secrets.DATABASE_PASSWORD_DEV }}
+          DATABASE_USERNAME: "${{ secrets.DATABASE_USERNAME_DEV }}"
+          DATABASE_PASSWORD: "${{ secrets.DATABASE_PASSWORD_DEV }}"
           DB_SUBNET_GROUP_NAME: ${{ secrets.DB_SUBNET_GROUP_NAME_DEV }}
           ECS_CLUSTER_NAME: ${{ secrets.ECS_CLUSTER_NAME_DEV }}
           ECS_SERVICE_NAME: ${{ secrets.ECS_SERVICE_NAME_DEV }}
