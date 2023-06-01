@@ -71,12 +71,5 @@ jobs:
           ENV: dev
 
         run: |
-          echo "REGION: $REGION_DEV"
-          echo "PROJECT_NAME: $PROJECT_NAME_DEV"
           cd infra/
-          mv backend.tf-dev backend.tf
-          mv dev.tfvars terraform.tfvars
-          cat terraform.tfvars
-          mv vpc.tf-dev vpc.tf
-          terraform init
-          terraform plan
+          bash deploy.sh
