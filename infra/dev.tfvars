@@ -1,7 +1,7 @@
 region            = "REGION"
 env_name          = "ENV_NAME"
 project_name      = "PROJECT_NAME"
-vpc_name=""
+vpc_name="VPC_NAME"
 security_group_backend = "SECURITY_GROUP_BACKEND"
 database_name     = "DATABASE_NAME"
 database_identifier = "DATABASE_IDENTIFIER"
