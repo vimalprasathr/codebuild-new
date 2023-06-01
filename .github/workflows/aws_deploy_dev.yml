@@ -42,7 +42,7 @@ jobs:
       - name: Terraform update
         id: terraform_update
 
-        run:  cd infra && bash deploy.sh
+        run:  echo "$VPC_NAME"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID_DEV }}
